@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaps/features/authentication/presentation/widgets/constants.dart';
 
 typedef OnSwitchChanged = void Function(bool);
 
@@ -35,10 +36,10 @@ class _SwitchWidgetState extends State<SwitchWidget> {
           widget.onSwitchChanged(value);
         });
       },
-      activeTrackColor: Colors.yellow,
-      activeColor: Colors.white,
-      inactiveThumbColor: Colors.white,
-      inactiveTrackColor: Colors.yellow,
+      activeTrackColor: AppColors["baseGoldenColor"],
+      activeColor: AppColors["white"],
+      inactiveThumbColor: AppColors["white"],
+      inactiveTrackColor: AppColors["baseGoldenColor"],
     );
   }
 }
