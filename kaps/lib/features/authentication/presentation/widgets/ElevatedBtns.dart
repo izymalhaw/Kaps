@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kaps/features/authentication/presentation/widgets/constants.dart';
 
 class ElevatedBtns extends StatelessWidget {
   final Color PrimaryColor;
@@ -13,6 +14,10 @@ class ElevatedBtns extends StatelessWidget {
       required this.TextDisplay,
       required this.Onpressed});
 
+  get style => null;
+
+  get child => null;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -24,7 +29,7 @@ class ElevatedBtns extends StatelessWidget {
       onPressed: Onpressed,
       child: Text(
         TextDisplay,
-        style: GoogleFonts.inter(fontSize: 18, color: Colors.white),
+        style: GoogleFonts.inter(fontSize: 18, color: AppColors["white"]),
       ),
     );
   }
