@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 
 class FarmersEntity extends Equatable {
@@ -34,5 +37,37 @@ class FarmersEntity extends Equatable {
         profilePicture,
         scannedDocuments,
         status
+      ];
+}
+
+class FarmersEntitySend extends Equatable {
+  final String? FullName;
+  final String? PhoneNumber;
+  final String? Location;
+  final File? ProfileImage;
+  final Uint8List? fileBytes;
+  final String? fileName;
+  final String? Password;
+
+  FarmersEntitySend({
+    required this.FullName,
+    required this.PhoneNumber,
+    required this.Location,
+    required this.ProfileImage,
+    required this.fileBytes,
+    required this.fileName,
+    required this.Password,
+    String? location,
+  });
+
+  @override
+  List<Object?> get props => [
+        FullName,
+        PhoneNumber,
+        Location,
+        ProfileImage,
+        fileBytes,
+        fileName,
+        Password,
       ];
 }

@@ -47,7 +47,7 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
 
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
-  
+
   @override
   Future<HttpResponse<List<FarmerModels>>> getFarmerData(String id) async {
     try {
@@ -68,5 +68,61 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
       );
     }
   }
+
+  @override
+  Future<HttpResponse<List<FarmerModels>>> SignIn(
+      String PhoneNumber, String Password) async {
+    try {
+      final response = await _dio.post(
+          "https://kaps-api.purposeblacketh.com/agent/signin",
+          data: <String, String>{'phone': PhoneNumber, 'password': Password});
+      if (response.statusCode == HttpStatus.ok) {
+        FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
+        return HttpResponse<List<FarmerModels>>(
+          [farmerEntities],
+          response, // Pass the list of FarmerModels
+        );
+      } else {
+        throw DioError(
+          error: 'An error occurred while fetching farmer data',
+          response: response,
+          requestOptions: response.requestOptions,
+        );
+      }
+    } catch (e) {
+      print("flag1");
+      throw DioError(
+        error: e.toString(),
+        requestOptions: RequestOptions(path: "/agent/signin"),
+      );
+    }
   }
-  
+
+  @override
+  Future<HttpResponse> signUp(
+    String FullName,
+    String PhoneNumber,
+    String Location,
+    File? ProfileImage,
+    Uint8List? fileBytes,
+    String? fileName,
+  ) async {
+    print("all datas:" +
+        "name:" +
+        FullName +
+        " phone:" +
+        PhoneNumber +
+        " loc:" +
+        Location +
+        " filename: " +
+        fileName!);
+    print(ProfileImage);
+    print("fileByte:");
+    print(fileBytes);
+    return Future.value(HttpResponse(
+        200,
+        Response(
+            data: 'SignUp dummy response',
+            requestOptions: RequestOptions(path: "/agent/signup"))));
+  }
+}
