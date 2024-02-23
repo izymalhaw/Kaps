@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:kaps/core/constants/network_constatnts.dart';
@@ -15,6 +16,23 @@ abstract class GetFarmerDataApiService {
   @GET("/farmers/")
   Future<HttpResponse<List<FarmerModels>>> getFarmerData(
       @Query('id') String id) async {
+    throw UnimplementedError();
+  }
+
+  @POST("/agent/signin")
+  Future<dynamic> SignIn(String PhoneNumber, String Password) async {
+    throw UnimplementedError();
+  }
+
+  @POST("/agent/signup")
+  Future<HttpResponse> signUp(
+    String FullName,
+    String PhoneNumber,
+    String Location,
+    File? ProfileImage,
+    Uint8List? fileBytes,
+    String? fileName,
+  ) async {
     throw UnimplementedError();
   }
 }

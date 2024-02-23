@@ -1,1 +1,1 @@
-const String KapsBaseUrl = "";
+const String KapsBaseUrl = "https://kaps-api.purposeblacketh.com/";
