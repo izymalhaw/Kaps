@@ -1,0 +1,22 @@
+{
+    "helloWorld": "ሀሎ",
+    "loginAccount":"ወደ ኣካውንቶ ይግቡ",
+    "helloWelcome":"እንኳን ወደ ከገበሬወ መተግበሪያ በደህና መጡ",
+    "phone":"ስልክ",
+    "password":"ሚስጥር ቁጥር",
+    "signIn":"ይግቡ",
+    "signUp":"ይመዝገቡ",
+    "logout":"ይውጡ",
+    "dashboard":"ዳሽቦርድ",
+    "profile":"የተጠቃሚ ማህደር",
+    "fullname":"ሙሉ ስም",
+    "mylocation": "የምገኝበት ቦታ",
+    "files":"ሰነዶች",
+    "addItems":"እቃዎችን አክል",
+    "history":"ታሪክ",
+    "itemDetails":"የእቃ ዝርዝሮች",
+    "chooseProduct":"የምርት ስም ምረጥ",
+    "productDesc":"የምርት መግለጫ",
+    "productQuantity":"የምርት ብዛት",
+    "productPrice":"የምርት ዋጋ"
+}

@@ -73,11 +73,26 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
   Future<HttpResponse<List<FarmerModels>>> SignIn(
       String PhoneNumber, String Password) async {
     try {
-      final response = await _dio.post(
-          "https://kaps-api.purposeblacketh.com/agent/signin",
-          data: <String, String>{'phone': PhoneNumber, 'password': Password});
+      final response =
+          await _dio.post("https://kaps-api.purposeblacketh.com/agent/signin",
+              options: Options(
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization':
+                      'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRjNTU2OWFjYTcwNzhlYmM0NTA5NzIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MDk1MzE5OTB9.VAbggbnkEWv4-XLBdruePcYLyk8T52nBZRl097O3VVE'
+                  // Set the content type to multipart/form-data
+                },
+              ),
+              data: jsonEncode({'phone': PhoneNumber, 'password': Password}));
       if (response.statusCode == HttpStatus.ok) {
         FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('ProfilePicture', farmerEntities.profilePicture!);
+        await prefs.setString('phone', farmerEntities.phone!);
+        await prefs.setBool('user', true);
+        await prefs.setString('name', farmerEntities.firstName!);
+        await prefs.setString('location', farmerEntities.location!);
+
         return HttpResponse<List<FarmerModels>>(
           [farmerEntities],
           response, // Pass the list of FarmerModels
@@ -99,30 +114,61 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
   }
 
   @override
-  Future<HttpResponse> signUp(
+  Future<int> signUp(
     String FullName,
     String PhoneNumber,
     String Location,
     File? ProfileImage,
     Uint8List? fileBytes,
     String? fileName,
+    String password,
   ) async {
-    print("all datas:" +
-        "name:" +
-        FullName +
-        " phone:" +
-        PhoneNumber +
-        " loc:" +
-        Location +
-        " filename: " +
-        fileName!);
-    print(ProfileImage);
-    print("fileByte:");
-    print(fileBytes);
-    return Future.value(HttpResponse(
+    FormData formData = await FarmerModelsSend(
+      FullName: FullName,
+      PhoneNumber: PhoneNumber,
+      location: Location,
+      profilePicture: ProfileImage,
+      fileName: fileName,
+      fileBytes: fileBytes,
+      Password: password,
+    ).toJson();
+    print(formData);
+    try {
+      final response = await _dio.post(
+        "https://kaps-api.purposeblacketh.com/agent/signup",
+        data: formData, // Use the FormData object here
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization':
+                'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRjNTU2OWFjYTcwNzhlYmM0NTA5NzIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MDk1MzE5OTB9.VAbggbnkEWv4-XLBdruePcYLyk8T52nBZRl097O3VVE'
+// Set the content type to multipart/form-data
+          },
+        ),
+      );
+      if (response.statusCode == HttpStatus.ok) {
+        print("working");
+        FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
+
+        return HttpStatus.ok;
+      } else {
+        throw DioError(
+          error: 'An error occurred while fetching farmer data',
+          response: response,
+          requestOptions: response.requestOptions,
+        );
+      }
+    } on DioException catch (e) {
+      print(e.response.toString());
+      throw DioError(
+        error: e.toString(),
+        requestOptions: RequestOptions(path: "/agent/signup"),
+      );
+    }
+/*     return Future.value(HttpResponse(
         200,
         Response(
             data: 'SignUp dummy response',
-            requestOptions: RequestOptions(path: "/agent/signup"))));
+            requestOptions: RequestOptions(path: "/agent/signup")))); */
   }
 }

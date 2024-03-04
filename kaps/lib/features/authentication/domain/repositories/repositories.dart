@@ -11,7 +11,7 @@ abstract class domainRepositories {
   Future<DataState<List<FarmersEntity>>> getFarmerData(String id);
   Future<DataState<List<FarmersEntity>>> SignIn(
       String PhoneNumber, String Password);
-  Future<DataState<FarmersEntitySend>> SignUp(
+  Future<DataState<int>> SignUp(
     final String FullName,
     final String PhoneNumber,
     final String Location,

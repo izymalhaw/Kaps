@@ -21,7 +21,7 @@ class GetFarmerDataUseCase
     return _domainRepositories.SignIn(PhoneNumber, Password);
   }
 
-  Future<DataState<FarmersEntitySend>> SignUp(
+  Future<DataState<int>> SignUp(
     final String FullName,
     final String PhoneNumber,
     final String Location,

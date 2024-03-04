@@ -12,7 +12,6 @@ class FarmersEntity extends Equatable {
   String? location;
   String? profilePicture;
   String? scannedDocuments;
-  String? status;
 
   FarmersEntity({
     required this.fid,
@@ -23,7 +22,6 @@ class FarmersEntity extends Equatable {
     required this.location,
     required this.profilePicture,
     required this.scannedDocuments,
-    required this.status,
   });
 
   @override
@@ -36,7 +34,6 @@ class FarmersEntity extends Equatable {
         location,
         profilePicture,
         scannedDocuments,
-        status
       ];
 }
 

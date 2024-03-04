@@ -9,6 +9,7 @@ import 'package:kaps/features/authentication/data/data_sources/remote/get_farmer
 import 'package:kaps/features/authentication/data/model/farmer_model.dart';
 import 'package:kaps/features/authentication/domain/entites/farmer_entity.dart';
 import 'package:kaps/features/authentication/domain/usecases/get_farmer_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/resources/data_state.dart';
 import 'package:geocoding/geocoding.dart';
@@ -46,7 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.Password);
       emit(LoadingAuthState());
       if (res is DataSuccess) {
-        return emit(AuthenticatedState(res.data[0]));
+        print(res.data.toString());
+        return emit(AuthenticatedState(res.data));
       } else if (res is DataFailed) {
         return emit(ErrorAuthenticationState(res.error));
       } else {
@@ -102,5 +104,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+    on<AuthLogoutRequested>((event, emit) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      emit(LoggedOut());
+    });
+/*     on<lang>(
+      (event, emit) {
+        emit(langState(event.l));
+        print(event.l);
+      },
+    ); */
   }
 }

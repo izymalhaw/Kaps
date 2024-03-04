@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kaps/features/landing_page/dashboard/presentation/widgets/feeds.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/boxes.dart';
 import '../widgets/charts.dart';
 
@@ -15,43 +17,49 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     double Height = MediaQuery.of(context).size.height;
     double Width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: Column(children: [
-        Padding(
-          padding:
-              EdgeInsets.fromLTRB(Width * 0.005, Height * 0.1, Width * 0.3, 0),
-          child: Text(
-            'Farmer DashBoard',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(
-          height: Height * 0.05,
-        ),
+    return SingleChildScrollView(
+      child: Column(children: [
         Padding(
           padding:
               EdgeInsets.fromLTRB(Width * 0.05, 0, Width * 0.05, Height * 0.05),
           child: Boxes(Height, Width),
         ),
-        SizedBox(
-          height: Height * 0.01,
-        ),
         Padding(
-          padding:
-              EdgeInsets.fromLTRB(Width * 0.05, 0, Width * 0.05, Height * 0.05),
+          padding: EdgeInsets.fromLTRB(
+              Width * 0.05, 0, Width * 0.05, Height * 0.001),
           child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
+            scrollDirection: Axis.vertical,
+            child: Column(
               children: [
-                charts("Trendig Products", "Onion in kilos"),
-                SizedBox(
-                  width: Width * 0.1,
+                charts("Farmers Sells", "Yearly Sales Analysis"),
+                Padding(
+                  padding:
+                      EdgeInsets.only(right: Width * 0.6, left: Width * 0.05),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Feeds",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Icon(Icons.newspaper_sharp),
+                    ],
+                  ),
                 ),
-                charts("Trendig Products", "Coffee in Metric Ton"),
-                SizedBox(
-                  width: Width * 0.1,
+                Container(
+                  height: Height * 0.3,
+                  width: Width * 0.85,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [],
+                    ),
+                  ),
                 ),
-                charts("Trendig Products", "Teff in Metric quintals"),
               ],
             ),
           ),

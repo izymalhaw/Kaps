@@ -31,3 +31,12 @@ class ProfileImagePickerEvent extends AuthEvent {
 class FilePickerEvent extends AuthEvent {
   FilePickerEvent();
 }
+
+class  AuthLogoutRequested extends AuthEvent{
+  
+}
+
+/* class lang extends AuthEvent {
+  final String l;
+  lang(this.l);
+} */
