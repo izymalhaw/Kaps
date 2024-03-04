@@ -1,0 +1,23 @@
+{
+    "helloWorld": "hello",
+    "loginAccount":"Login",
+    "helloWelcome":"Welcome to KAPS",
+    "phone":"Phone Number",
+    "password":"password",
+    "signIn":"SignIn",
+    "signUp":"SignUp",
+    "logout":"Logout",
+    "dashboard":"Dashboard",
+    "profile":"profile",
+    "fullname":"Full Name",
+    "mylocation": "My Location",
+    "files":"Files",
+    "addItems":"Add Items",
+    "history":"History",
+    "itemDetails":"Item Details",
+    "chooseProduct":"Choose Product Name",
+    "productDesc":"Description of Product",
+    "productQuantity":"product Quantity",
+    "productPrice":"product price"
+
+}

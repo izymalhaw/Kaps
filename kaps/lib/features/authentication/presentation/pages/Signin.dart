@@ -8,6 +8,9 @@ import 'package:kaps/features/authentication/presentation/widgets/Switch.dart';
 import 'package:kaps/features/authentication/presentation/widgets/TextFields.dart';
 import 'package:kaps/features/authentication/presentation/widgets/constants.dart';
 import 'package:kaps/injection_container.dart';
+import 'package:kaps/l10n/bloc/language_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -25,6 +28,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     double Screen_height = MediaQuery.of(context).size.height;
     double Screen_width = MediaQuery.of(context).size.width;
+    String selectedValue = "am";
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is LoadingAuthState) {
@@ -37,8 +41,9 @@ class _SignInState extends State<SignIn> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("WORKING"),
           ));
-          //Navigator.pushReplacementNamed(context, '/home');
-        } else {
+          Navigator.pushReplacementNamed(context, '/home',
+              arguments: selectedValue);
+        } else if (state is ErrorAuthenticationState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("ERROR"),
           ));
@@ -55,17 +60,26 @@ class _SignInState extends State<SignIn> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Row(children: [
-                      Text('Login Account',
-                          style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w600, fontSize: 17)),
+                      Text(AppLocalizations.of(context)!.loginAccount, style: GoogleFonts.aclonica()),
                       const Spacer(),
                       Center(
-                        child: SwitchWidget(
-                            isSwitched: isSwitched,
-                            onSwitchChanged: (value) {
-                              isSwitched = value;
-                            }),
-                      )
+                          child: DropdownButton(
+                        icon: Icon(Icons.language),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue!;
+                            BlocProvider.of<LanguageBloc>(context)
+                                .add(LanguageLoading(selectedValue));
+                          });
+                        },
+                        items: <String>['en', 'am']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ))
                     ]),
                   ),
                   Column(
@@ -76,19 +90,11 @@ class _SignInState extends State<SignIn> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Hello, Welcome back to your account',
-                                style: GoogleFonts.inter(
-                                    fontSize: 14.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors["grey"]),
-                              ),
+                              Text(AppLocalizations.of(context)!.helloWelcome,
+                                  style: GoogleFonts.aclonica()),
                               const SizedBox(height: 30),
-                              Text(
-                                'Phone Number',
-                                style: GoogleFonts.inter(
-                                    fontSize: 16, color: AppColors["black"]),
-                              ),
+                              Text(AppLocalizations.of(context)!.phone,
+                                  style: GoogleFonts.aclonica()),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -115,11 +121,8 @@ class _SignInState extends State<SignIn> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                'Password',
-                                style: GoogleFonts.inter(
-                                    fontSize: 16, color: Colors.black),
-                              ),
+                              Text(AppLocalizations.of(context)!.password,
+                                  style: GoogleFonts.aclonica()),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -154,7 +157,7 @@ class _SignInState extends State<SignIn> {
                             PrimaryColor: AppColors["baseGoldenColor"] ??
                                 Color.fromRGBO(215, 160, 34, 1),
                             SecondaryColor: AppColors["grey"] ?? Colors.grey,
-                            TextDisplay: 'SignIn',
+                            TextDisplay: AppLocalizations.of(context)!.signIn,
                             Onpressed: () {
                               BlocProvider.of<AuthBloc>(context).add(
                                   SignInEvent(
@@ -177,7 +180,8 @@ class _SignInState extends State<SignIn> {
                               child: Divider(
                             thickness: 2,
                           )),
-                          Text("  Don't have an account?   "),
+                          Text("  Don't have an account?   ",
+                              style: GoogleFonts.aclonica()),
                           Expanded(
                               child: Divider(
                             thickness: 2,
@@ -197,7 +201,8 @@ class _SignInState extends State<SignIn> {
                               child: ElevatedBtns(
                                 PrimaryColor: Colors.grey.shade300,
                                 SecondaryColor: Colors.grey,
-                                TextDisplay: 'SignUp',
+                                TextDisplay:
+                                    AppLocalizations.of(context)!.signUp,
                                 Onpressed: () {
                                   Navigator.pushNamed(context, '/SingUp');
                                 },
@@ -209,13 +214,11 @@ class _SignInState extends State<SignIn> {
                       SizedBox(height: Screen_height * 0.05),
                       Text(
                         'Purpose Black Ethiopia',
-                        style: GoogleFonts.inter(
-                            fontSize: 12, color: AppColors['grey']),
+                        style: GoogleFonts.aclonica(),
                       ),
                       Text(
                         'V 0.0.1',
-                        style: GoogleFonts.inter(
-                            fontSize: 12, color: AppColors['grey']),
+                        style: GoogleFonts.aclonica(),
                       ),
                     ],
                   )

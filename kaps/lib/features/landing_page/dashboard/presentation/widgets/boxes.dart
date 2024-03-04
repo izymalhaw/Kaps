@@ -23,7 +23,7 @@ Widget Boxes(double Height, double Width) {
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "50",
+                    "0",
                     style: TextStyle(color: Colors.white),
                   ),
                 ],
@@ -77,11 +77,11 @@ Widget Boxes(double Height, double Width) {
               child: Column(
                 children: [
                   Text(
-                    "New Products",
+                    "Items On List",
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "6",
+                    "9",
                     style: TextStyle(color: Colors.white),
                   ),
                 ],

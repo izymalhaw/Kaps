@@ -57,7 +57,7 @@ class repositoriesImpl implements domainRepositories {
   }
 
   @override
-  Future<DataState<FarmersEntitySend>> SignUp(
+  Future<DataState<int>> SignUp(
     String FullName,
     String PhoneNumber,
     String Location,
@@ -67,23 +67,17 @@ class repositoriesImpl implements domainRepositories {
     String Password,
   ) async {
     try {
-      final Res = await _getFarmerDataApiService.signUp(
-        FullName,
-        PhoneNumber,
-        Location,
-        ProfileImage,
-        fileBytes,
-        fileName,
-      );
+      final Res = await _getFarmerDataApiService.signUp(FullName, PhoneNumber,
+          Location, ProfileImage, fileBytes, fileName, Password);
 
-      if (Res.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: Res.data);
+      if (Res == HttpStatus.ok) {
+        return DataSuccess(data: Res);
       } else {
         return DataFailed(
             error: DioError(
-          error: Res.response.statusMessage,
-          response: Res.response,
-          requestOptions: Res.response.requestOptions,
+          requestOptions: RequestOptions(
+            path: '',
+          ),
         ));
       }
     } on DioError catch (e) {

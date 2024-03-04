@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:kaps/features/authentication/domain/entites/farmer_entity.dart';
 
 class FarmerModels extends FarmersEntity {
@@ -13,7 +14,7 @@ class FarmerModels extends FarmersEntity {
     String? location,
     String? profilePicture,
     String? scannedDocuments,
-    String? status,
+
   }) : super(
           fid: fid,
           firstName: firstName,
@@ -23,20 +24,16 @@ class FarmerModels extends FarmersEntity {
           location: location,
           profilePicture: profilePicture,
           scannedDocuments: scannedDocuments,
-          status: status,
         );
 
   factory FarmerModels.fromJson(Map<String, dynamic> json) {
     return FarmerModels(
       fid: json['_id'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
+      firstName: json['name'],
       phone: json['phone'],
-      password: json['password'],
       location: json['location'],
-      profilePicture: json['profilePicture'],
-      scannedDocuments: json['scanneDocuments'],
-      status: json['user_status'],
+      profilePicture: json['img'],
+      scannedDocuments: json['file'],
     );
   }
 
@@ -49,7 +46,6 @@ class FarmerModels extends FarmersEntity {
       'location': location,
       'profilePicture': profilePicture,
       'scanneDocuments': scannedDocuments,
-      'status': status,
     };
   }
 }
@@ -73,9 +69,22 @@ class FarmerModelsSend extends FarmersEntitySend {
           Password: Password,
         );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'firstName': FullName,
-    };
+  Future<FormData> toJson() async {
+    try {
+      FormData formData = FormData.fromMap({
+        'name': FullName,
+        'phone': PhoneNumber,
+        'location': Location,
+        'files': MultipartFile.fromBytes(fileBytes!, filename: fileName!),
+        'password': Password,
+        'img': await MultipartFile.fromFile(ProfileImage!.path,
+            filename: ProfileImage!.path.split('/').last),
+        'email': "",
+      });
+      return formData;
+    } catch (e) {
+      // Handle or log the error as appropriate
+      throw Exception('Failed to create FormData: $e');
+    }
   }
 }

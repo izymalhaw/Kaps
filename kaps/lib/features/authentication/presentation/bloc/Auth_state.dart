@@ -37,3 +37,10 @@ class FilePickerState extends AuthState {
 }
 
 class FileError extends AuthState {}
+
+class LoggedOut extends AuthState {}
+
+/* class langState extends AuthState {
+  final String l;
+  langState(this.l);
+} */

@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:kaps/core/constants/network_constatnts.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/farmer_model.dart';
 
@@ -25,13 +27,14 @@ abstract class GetFarmerDataApiService {
   }
 
   @POST("/agent/signup")
-  Future<HttpResponse> signUp(
+  Future<int> signUp(
     String FullName,
     String PhoneNumber,
     String Location,
     File? ProfileImage,
     Uint8List? fileBytes,
     String? fileName,
+    String password,
   ) async {
     throw UnimplementedError();
   }
