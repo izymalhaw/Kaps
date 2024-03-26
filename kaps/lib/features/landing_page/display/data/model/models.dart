@@ -2,27 +2,21 @@ import 'dart:convert';
 
 class Products {
   List<Datum> data;
-  int totalPages;
 
   Products({
     required this.data,
-    required this.totalPages,
   });
 
   factory Products.fromRawJson(String str) =>
       Products.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  /*factory Products.fromJson(Map<String, dynamic> json) => Products(
+        data: List<Datum>.from(json.map((x) => Datum.fromJson(x))),
+      );*/
 
-  factory Products.fromJson(Map<String, dynamic> json) => Products(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        totalPages: json["totalPages"],
+  factory Products.fromJson(List<dynamic> json) => Products(
+        data: List<Datum>.from(json.map((x) => Datum.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "totalPages": totalPages,
-      };
 }
 
 class Datum {
