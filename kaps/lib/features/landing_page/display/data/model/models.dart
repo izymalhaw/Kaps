@@ -1,91 +1,80 @@
 import 'dart:convert';
 
 class Products {
-  List<Datum> data;
-  int totalPages;
+    List<Product> product;
 
-  Products({
-    required this.data,
-    required this.totalPages,
-  });
+    Products({
+        required this.product,
+    });
 
-  factory Products.fromRawJson(String str) =>
-      Products.fromJson(json.decode(str));
+    factory Products.fromRawJson(String str) => Products.fromJsonList(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
-
-  factory Products.fromJson(Map<String, dynamic> json) => Products(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        totalPages: json["totalPages"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "totalPages": totalPages,
-      };
+    factory Products.fromJsonList(List<dynamic> list) {
+        return Products(
+            product: list.map((item) => Product.fromJson(item)).toList(),
+        );
+    }
+    
 }
 
-class Datum {
-  String id;
-  String productname;
-  double productprice;
-  String productlocation;
-  String agentphone;
-  String productdescription;
-  double? quantity;
-  String? unit;
-  String? url;
-  String file;
-  String? approvalStatus;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
-  String? adminApproval;
-  String? catagory;
+class Product {
+    String id;
+    String productname;
+    int productprice;
+    String productlocation;
+    String agentphone;
+    String productdescription;
+    int quantity;
+    String file;
+    String approvalStatus;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int v;
+    String adminApproval;
+    String? unit;
+    String? url;
 
-  Datum({
-    required this.id,
-    required this.productname,
-    required this.productprice,
-    required this.productlocation,
-    required this.agentphone,
-    required this.productdescription,
-    this.quantity,
-    this.unit,
-    this.url,
-    required this.file,
-    required this.approvalStatus,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-    this.adminApproval,
-    this.catagory,
-  });
+    Product({
+        required this.id,
+        required this.productname,
+        required this.productprice,
+        required this.productlocation,
+        required this.agentphone,
+        required this.productdescription,
+        required this.quantity,
+        required this.file,
+        required this.approvalStatus,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.v,
+        required this.adminApproval,
+        this.unit,
+        this.url,
+    });
 
-  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+    factory Product.fromRawJson(String str) => Product.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+    String toRawJson() => json.encode(toJson());
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["_id"],
         productname: json["productname"],
-        productprice: json["productprice"]?.toDouble(),
+        productprice: json["productprice"],
         productlocation: json["productlocation"],
         agentphone: json["agentphone"],
         productdescription: json["productdescription"],
-        quantity: json["quantity"]?.toDouble(),
-        unit: json["unit"],
-        url: json["url"],
+        quantity: json["quantity"],
         file: json["file"],
-        approvalStatus: json["approvalStatus"]!,
+        approvalStatus: json["approvalStatus"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
         adminApproval: json["adminApproval"],
-        catagory: json["catagory"],
-      );
+        unit: json["unit"],
+        url: json["url"],
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "_id": id,
         "productname": productname,
         "productprice": productprice,
@@ -93,14 +82,13 @@ class Datum {
         "agentphone": agentphone,
         "productdescription": productdescription,
         "quantity": quantity,
-        "unit": unit,
-        "url": url,
         "file": file,
         "approvalStatus": approvalStatus,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
         "adminApproval": adminApproval,
-        "catagory": catagory,
-      };
+        "unit": unit,
+        "url": url,
+    };
 }
