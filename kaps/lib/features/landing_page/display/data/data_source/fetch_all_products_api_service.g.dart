@@ -54,13 +54,11 @@ class _FetchAllProducts implements FetchAllProducts {
   Future<HttpResponse<List<Datum>>> FetchProducts() async {
     try {
       final response = await _dio.get(
-          "https://kaps-api.purposeblacketh.com/product/getallItems?pageSize=1000",
+          "https://kaps-api.purposeblacketh.com/wearhouse/products",
           options: Options(headers: {
             'Authorization':
                 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRjNTU2OWFjYTcwNzhlYmM0NTA5NzIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MDk1MzE5OTB9.VAbggbnkEWv4-XLBdruePcYLyk8T52nBZRl097O3VVE'
           }));
-      var products = Products.fromJson(response.data);
-      print(products);
       if (response.statusCode == HttpStatus.ok) {
         var products = Products.fromJson(response.data);
         return HttpResponse(products.data, response);
@@ -79,10 +77,10 @@ class _FetchAllProducts implements FetchAllProducts {
       );
     }
   }
-  
+
   @override
   Future<HttpResponse<Singleproduct>> FetchAProduct(String id) async {
-   try {
+    try {
       final response = await _dio.get(
           "https://kaps-api.purposeblacketh.com/wearhouse/products/${id}",
           options: Options(headers: {
