@@ -87,17 +87,18 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
       if (response.statusCode == HttpStatus.ok) {
         FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('ProfilePicture', farmerEntities.profilePicture!);
-        await prefs.setString('phone', farmerEntities.phone!);
+        await prefs.setString('ProfilePicture', farmerEntities.agent.img);
+        await prefs.setString('phone', farmerEntities.agent.phone);
         await prefs.setBool('user', true);
-        await prefs.setString('name', farmerEntities.firstName!);
-        await prefs.setString('location', farmerEntities.location!);
+        await prefs.setString('name', farmerEntities.agent.name);
+        await prefs.setString('location', farmerEntities.agent.location);
 
         return HttpResponse<List<FarmerModels>>(
           [farmerEntities],
           response, // Pass the list of FarmerModels
         );
       } else {
+        print(response.data.toString());
         throw DioError(
           error: 'An error occurred while fetching farmer data',
           response: response,
@@ -105,7 +106,7 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
         );
       }
     } catch (e) {
-      print("flag1");
+      print(e.toString());
       throw DioError(
         error: e.toString(),
         requestOptions: RequestOptions(path: "/agent/signin"),
@@ -148,10 +149,10 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
       );
       if (response.statusCode == HttpStatus.ok) {
         print("working");
-        FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
-
+        //FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
         return HttpStatus.ok;
       } else {
+        print(response.data.toString());
         throw DioError(
           error: 'An error occurred while fetching farmer data',
           response: response,
@@ -165,10 +166,5 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
         requestOptions: RequestOptions(path: "/agent/signup"),
       );
     }
-/*     return Future.value(HttpResponse(
-        200,
-        Response(
-            data: 'SignUp dummy response',
-            requestOptions: RequestOptions(path: "/agent/signup")))); */
   }
 }

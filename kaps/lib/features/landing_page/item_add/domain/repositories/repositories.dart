@@ -14,6 +14,9 @@ abstract class domainRepositories {
     final String? ProductName,
     final String? ProductDescription,
     final String? price,
+    final String? productCategory,
+    final String? unit,
+    final String? quantity,
   );
 
   Future<DataState<List<dynamic>>> getAllItem();

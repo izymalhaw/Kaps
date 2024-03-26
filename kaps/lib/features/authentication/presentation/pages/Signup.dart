@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:kaps/features/authentication/presentation/bloc/Auth_bloc.dart';
+import 'package:kaps/features/authentication/presentation/widgets/text.dart';
 import 'package:status_alert/status_alert.dart';
 
 import '../widgets/ElevatedBtns.dart';
@@ -36,6 +37,7 @@ class _SignInState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return BlocListener<AuthBloc, AuthState>(
@@ -136,8 +138,7 @@ class _SignInState extends State<SignUp> {
                                   ),
                                 ]),
                           onTap: () {
-                            BlocProvider.of<AuthBloc>(context)
-                                .add(ProfileImagePickerEvent());
+                            authBloc.add(ProfileImagePickerEvent());
                           }),
                     ),
                   ),
@@ -223,8 +224,7 @@ class _SignInState extends State<SignUp> {
                                             AppLocalizations.of(context)!
                                                 .mylocation,
                                         Onpressed: () {
-                                          BlocProvider.of<AuthBloc>(context)
-                                              .add(GetLocationEvent());
+                                          authBloc.add(GetLocationEvent());
                                           //use bloc here
                                         },
                                       ),
@@ -255,8 +255,7 @@ class _SignInState extends State<SignUp> {
                                               AppLocalizations.of(context)!
                                                   .files,
                                           Onpressed: () {
-                                            BlocProvider.of<AuthBloc>(context)
-                                                .add(FilePickerEvent());
+                                            authBloc.add(FilePickerEvent());
                                           }),
                                     ),
                                   )
@@ -274,16 +273,66 @@ class _SignInState extends State<SignUp> {
                             SecondaryColor: AppColors['white']!,
                             TextDisplay: AppLocalizations.of(context)!.signUp,
                             Onpressed: () {
-                              BlocProvider.of<AuthBloc>(context)
-                                  .add(SignUpEvent(
-                                fullName!,
-                                phoneNumber!,
-                                location!,
-                                Imgs!,
-                                fileBytes,
-                                fileName,
-                                password!,
-                              ));
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              text,
+                                              style: GoogleFonts.aclonica(
+                                                  color: Colors.black),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.25),
+                                              child: SizedBox(
+                                                height: 50,
+                                                width: 150,
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    shadowColor:
+                                                        AppColors['white']!,
+                                                  ),
+                                                  onPressed: () {
+                                                    authBloc.add(SignUpEvent(
+                                                      fullName!,
+                                                      phoneNumber!,
+                                                      location!,
+                                                      Imgs!,
+                                                      fileBytes,
+                                                      fileName,
+                                                      password!,
+                                                    ));
+                                                  },
+                                                  child: Icon(Icons.check,
+                                                      color:
+                                                          AppColors['white']!),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
                           ),
                         ),

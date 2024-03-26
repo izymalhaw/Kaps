@@ -10,6 +10,9 @@ class ItemsEntity extends Equatable {
   String? price;
   String? location;
   File? productImage;
+  String? productCategory;
+  String? unit;
+  String? quantity;
 
   ItemsEntity({
     required this.phoneNumber,
@@ -17,7 +20,7 @@ class ItemsEntity extends Equatable {
     required this.productDescription,
     required this.price,
     required this.location,
-    required this.productImage,
+    required this.productImage, required this.productCategory, required this.unit, required this.quantity,
   });
 
   @override

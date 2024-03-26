@@ -4,36 +4,48 @@ import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 
 class FarmersEntity extends Equatable {
-  String? fid;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  String? password;
-  String? location;
-  String? profilePicture;
-  String? scannedDocuments;
+  String? role;
+  String? id;
+  String name;
+  String phone;
+  String email;
+  String password;
+  bool? restriction;
+  String img;
+  String location;
+  String files;
+  List<dynamic>? products;
+  int? v;
 
   FarmersEntity({
-    required this.fid,
-    required this.firstName,
-    required this.lastName,
+    this.role,
+    this.id,
+    required this.name,
     required this.phone,
+    required this.email,
     required this.password,
+    this.restriction,
+    required this.img,
     required this.location,
-    required this.profilePicture,
-    required this.scannedDocuments,
+    required this.files,
+    required this.products,
+    this.v,
   });
 
   @override
   List<Object?> get props => [
-        fid,
-        firstName,
-        lastName,
+        role,
+        id,
+        name,
         phone,
+        email,
         password,
+        restriction,
+        img,
         location,
-        profilePicture,
-        scannedDocuments,
+        files,
+        products,
+        v,
       ];
 }
 

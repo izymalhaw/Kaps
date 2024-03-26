@@ -20,6 +20,9 @@ class AddItemsUseCase implements UseCase<DataState<List<ItemsEntity>>, String> {
     final String? ProductName,
     final String? ProductDescription,
     final String? price,
+    final String? productCategory,
+    final String? unit,
+    final String? quantity,
   ) {
     return _domainRepositories.AddItems(
       PhoneNumber,
@@ -28,6 +31,9 @@ class AddItemsUseCase implements UseCase<DataState<List<ItemsEntity>>, String> {
       ProductName,
       ProductDescription,
       price,
+      productCategory,
+      unit,
+      quantity
     );
   }
 

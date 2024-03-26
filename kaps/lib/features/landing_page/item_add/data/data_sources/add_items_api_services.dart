@@ -16,7 +16,7 @@ abstract class AddItemsApiService {
 
   @POST("/product/postitem")
   Future<int> AddItems(String PhoneNumber, String Location, File ProductImage,
-      String? price, String? productName, String? productDescription) async {
+      String? price, String? productName, String? productDescription, String? productCategory, String? unit, String? quantity) async {
     throw UnimplementedError();
   }
 

@@ -17,6 +17,9 @@ class repositoriesImpl implements domainRepositories {
     final String? ProductName,
     final String? ProductDescription,
     final String? price,
+    final String? productCategory,
+    final String? unit,
+    final String? quantity,
   ) async {
     try {
       final Res = await _addItemsApiService.AddItems(
@@ -26,6 +29,9 @@ class repositoriesImpl implements domainRepositories {
         price,
         ProductName,
         ProductDescription,
+        productCategory,
+        unit,
+        quantity,
       );
 
       if (Res == HttpStatus.ok) {

@@ -58,6 +58,10 @@ class _AddItemsApiService implements AddItemsApiService {
     String? price,
     String? productName,
     String? productDescription,
+    String? productCategory,
+    String? unit,
+    String? quantity,
+
   ) async {
     FormData formData = await ItemsModels(
       phoneNumber: PhoneNumber,
@@ -66,6 +70,9 @@ class _AddItemsApiService implements AddItemsApiService {
       productName: productName,
       productDescription: productDescription,
       price: price,
+      productCategory:productCategory,
+      unit: unit,
+      quantity: quantity,
     ).toJson();
     try {
       final response = await _dio.post(

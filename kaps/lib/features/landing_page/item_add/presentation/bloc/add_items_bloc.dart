@@ -22,6 +22,10 @@ class AddItemsBloc extends Bloc<AddItemsEvent, AddItemsState> {
         event.ProductName,
         event.ProductDescription,
         event.price,
+        event.productCategory,
+        event.quantity,
+        event.unit
+
       );
       if (res is DataSuccess) {
         emit(ItemAdded());

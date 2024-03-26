@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kaps/display_dependecis.dart';
 import 'package:kaps/features/authentication/presentation/bloc/Auth_bloc.dart';
 import 'package:kaps/features/authentication/presentation/pages/Signin.dart';
 import 'package:kaps/features/authentication/presentation/pages/Signup.dart';
 import 'package:kaps/features/landing_page/NavBar.dart';
 import 'package:kaps/features/landing_page/dashboard/presentation/pages/dashboard.dart';
+import 'package:kaps/features/landing_page/display/presentation/bloc/display_bloc.dart';
+import 'package:kaps/features/landing_page/display/presentation/pages/cart_page.dart';
+import 'package:kaps/features/landing_page/display/presentation/pages/checkout_page.dart';
+import 'package:kaps/features/landing_page/display/presentation/pages/display_page.dart';
 import 'package:kaps/features/landing_page/home.dart';
 import 'package:kaps/features/landing_page/item_add/presentation/bloc/add_items_bloc.dart';
 import 'package:kaps/features/landing_page/item_add/presentation/pages/AddItems.dart';
@@ -21,6 +26,7 @@ void main() async {
   await InitializeDependecies();
   await ItemsInitializeDependecies();
   await InfoInitializeDependecies();
+  await displayInitializeDependecies();
   runApp(BlocProvider(
     create: (context) => LanguageBloc(),
     child: MyApp(),
@@ -50,13 +56,16 @@ class _MyAppState extends State<MyApp> {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale(state.lang),
-            title: 'Flutter Demo',
+            title: 'KAPS',
             debugShowCheckedModeBanner: false,
             routes: {
               '/home': (context) => BlocProvider<AuthBloc>(
                     create: (context) => sl<AuthBloc>(),
                     child: home(),
                   ),
+              '/display': (context) => BlocProvider<DisplayBloc>(
+                  create: (context) => sl<DisplayBloc>(),
+                  child: displayProducts()),
               '/AddItems': (context) => BlocProvider<AddItemsBloc>(
                     create: (context) => sl<AddItemsBloc>(),
                     child: AddItems(
@@ -72,6 +81,11 @@ class _MyAppState extends State<MyApp> {
                     create: (context) => sl<AuthBloc>(),
                     child: const SignUp(),
                   ),
+              '/cart': (context) => BlocProvider<DisplayBloc>(
+                    create: (context) => sl<DisplayBloc>(),
+                    child: cartPage(),
+                  ),
+              '/checkout': (context) => checkoutPage(),
             },
             home: SplashScreen(),
           );
@@ -84,6 +98,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           routes: {
             '/home': (context) => home(),
+            '/display': (context) => displayProducts(),
             '/AddItems': (context) => BlocProvider<AddItemsBloc>(
                   create: (context) => sl<AddItemsBloc>(),
                   child: AddItems(

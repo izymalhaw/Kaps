@@ -11,6 +11,9 @@ class ItemsModels extends ItemsEntity {
     String? price,
     String? location,
     File? productImage,
+    String? productCategory,
+    String? unit,
+    String? quantity,
   }) : super(
           phoneNumber: phoneNumber,
           productName: productName,
@@ -18,6 +21,9 @@ class ItemsModels extends ItemsEntity {
           price: price,
           location: location,
           productImage: productImage,
+          productCategory: productCategory,
+          unit: unit,
+          quantity: quantity,
         );
 
   factory ItemsModels.fromJson(Map<String, dynamic> json) {
@@ -36,11 +42,13 @@ class ItemsModels extends ItemsEntity {
         'productname': productName,
         'productdescription': productDescription,
         'productprice': price,
-        'quantity': '10',
+        'quantity': quantity,
+        'category': productCategory,
+        'unit': unit,
+        'url': "",
       });
       return formData;
     } catch (e) {
-      // Handle or log the error as appropriate
       throw Exception('Failed to create FormData: $e');
     }
   }

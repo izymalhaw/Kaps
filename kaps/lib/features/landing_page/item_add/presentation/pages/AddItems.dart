@@ -26,8 +26,10 @@ class _AddItemsState extends State<AddItems> {
   String? productDescription;
   String? productPrice;
   String? location;
-  String quantity = "";
+  String? quantity;
   String? PhoneNumber;
+  String productCategory = "Vegitable";
+  String? unit;
   List<String>? productType = [];
   bool check = true;
 
@@ -214,7 +216,7 @@ class _AddItemsState extends State<AddItems> {
                                   metrics = newValue!;
                                   setState(() {
                                     if (metrics != null) {
-                                      quantity += " " + metrics;
+                                      unit = metrics;
                                     }
                                     print(newValue);
                                   });
@@ -287,6 +289,9 @@ class _AddItemsState extends State<AddItems> {
                           productName,
                           productDescription,
                           productPrice,
+                          productCategory,
+                          quantity,
+                          unit,
                         ),
                       );
                     }
