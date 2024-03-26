@@ -1,53 +1,100 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:kaps/features/authentication/domain/entites/farmer_entity.dart';
 
-class FarmerModels extends FarmersEntity {
+class FarmerModels {
+  String message;
+  String token;
+  Agent agent;
+
   FarmerModels({
-    String? fid,
-    String? firstName,
-    String? lastName,
-    String? phone,
-    String? password,
-    String? location,
-    String? profilePicture,
-    String? scannedDocuments,
+    required this.message,
+    required this.token,
+    required this.agent,
+  });
 
-  }) : super(
-          fid: fid,
-          firstName: firstName,
-          lastName: lastName,
-          phone: phone,
-          password: password,
-          location: location,
-          profilePicture: profilePicture,
-          scannedDocuments: scannedDocuments,
-        );
+  factory FarmerModels.fromRawJson(String str) =>
+      FarmerModels.fromJson(json.decode(str));
 
-  factory FarmerModels.fromJson(Map<String, dynamic> json) {
-    return FarmerModels(
-      fid: json['_id'],
-      firstName: json['name'],
-      phone: json['phone'],
-      location: json['location'],
-      profilePicture: json['img'],
-      scannedDocuments: json['file'],
-    );
-  }
+  String toRawJson() => json.encode(toJson());
 
-  Map<String, dynamic> toJson() {
-    return {
-      'firstName': firstName,
-      'lastName': lastName,
-      'phone': phone,
-      'password': password,
-      'location': location,
-      'profilePicture': profilePicture,
-      'scanneDocuments': scannedDocuments,
-    };
-  }
+  factory FarmerModels.fromJson(Map<String, dynamic> json) => FarmerModels(
+        message: json["message"],
+        token: json["token"],
+        agent: Agent.fromJson(json["agent"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "message": message,
+        "token": token,
+        "agent": agent.toJson(),
+      };
+}
+
+class Agent {
+  String? role;
+  String? id;
+  String name;
+  String phone;
+  String email;
+  String password;
+  bool? restriction;
+  String img;
+  String location;
+  String files;
+  List<dynamic>? products;
+  int? v;
+
+  Agent({
+    this.role,
+    this.id,
+    required this.name,
+    required this.phone,
+    required this.email,
+    required this.password,
+    this.restriction,
+    required this.img,
+    required this.location,
+    required this.files,
+    required this.products,
+    this.v,
+  });
+
+  factory Agent.fromRawJson(String str) => Agent.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Agent.fromJson(Map<String, dynamic> json) => Agent(
+        role: json["role"],
+        id: json["_id"],
+        name: json["name"],
+        phone: json["phone"],
+        email: json["email"],
+        password: json["password"],
+        restriction: json["restriction"],
+        img: json["img"],
+        location: json["location"],
+        files: json["files"],
+        products: List<dynamic>.from(json["products"].map((x) => x)),
+        v: json["__v"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "role": role,
+        "_id": id,
+        "name": name,
+        "phone": phone,
+        "email": email,
+        "password": password,
+        "restriction": restriction,
+        "img": img,
+        "location": location,
+        "files": files,
+        "__v": v,
+      };
 }
 
 class FarmerModelsSend extends FarmersEntitySend {
@@ -83,7 +130,6 @@ class FarmerModelsSend extends FarmersEntitySend {
       });
       return formData;
     } catch (e) {
-      // Handle or log the error as appropriate
       throw Exception('Failed to create FormData: $e');
     }
   }

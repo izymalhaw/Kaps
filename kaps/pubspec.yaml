@@ -53,6 +53,8 @@ dependencies:
     sdk: flutter
   intl: any
   loading_animation_widget: ^1.2.0+4
+  mockito: ^5.4.4
+  item_count_number_button: ^1.0.0
 
 dev_dependencies:
   flutter_test:

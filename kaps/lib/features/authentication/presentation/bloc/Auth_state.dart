@@ -40,6 +40,8 @@ class FileError extends AuthState {}
 
 class LoggedOut extends AuthState {}
 
+class AggrementInitialized extends AuthState {}
+
 /* class langState extends AuthState {
   final String l;
   langState(this.l);

@@ -10,6 +10,9 @@ class Add_items_event extends AddItemsEvent {
   final String? ProductName;
   final String? ProductDescription;
   final String? price;
+  final String? productCategory;
+  final String? unit;
+  final String? quantity;
   Add_items_event(
     this.PhoneNumber,
     this.Location,
@@ -17,6 +20,9 @@ class Add_items_event extends AddItemsEvent {
     this.ProductName,
     this.ProductDescription,
     this.price,
+    this.productCategory,
+    this.unit,
+    this.quantity,
   );
 }
 

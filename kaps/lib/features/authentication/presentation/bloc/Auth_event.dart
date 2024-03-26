@@ -36,6 +36,8 @@ class  AuthLogoutRequested extends AuthEvent{
   
 }
 
+class aggrementForm extends AuthEvent{}
+
 /* class lang extends AuthEvent {
   final String l;
   lang(this.l);

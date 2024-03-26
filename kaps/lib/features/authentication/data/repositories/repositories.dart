@@ -15,33 +15,28 @@ class repositoriesImpl implements domainRepositories {
   repositoriesImpl(this._getFarmerDataApiService);
 
   @override
-  Future<DataState<List<FarmerModels>>> getFarmerData(String id) async {
-    try {
-      final Res = await _getFarmerDataApiService.getFarmerData(id);
-
-      if (Res.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: Res.data);
-      } else {
-        return DataFailed(
-            error: DioError(
-          error: Res.response.statusMessage,
-          response: Res.response,
-          requestOptions: Res.response.requestOptions,
-        ));
-      }
-    } on DioError catch (e) {
-      return DataFailed(error: e);
-    }
-  }
-
-  @override
-  Future<DataState<List<FarmerModels>>> SignIn(
+  Future<DataState<List<FarmersEntity>>> SignIn(
       String PhoneNumber, String Password) async {
     try {
       final Res = await _getFarmerDataApiService.SignIn(PhoneNumber, Password);
 
       if (Res.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(data: Res.data);
+        return DataSuccess<List<FarmersEntity>>(data: [
+          FarmersEntity(
+            role: Res.data[0].agent.role,
+            id: Res.data[0].agent.id,
+            name: Res.data[0].agent.name,
+            phone: Res.data[0].agent.phone,
+            email: Res.data[0].agent.email,
+            password: Res.data[0].agent.password,
+            restriction: Res.data[0].agent.restriction,
+            img: Res.data[0].agent.img,
+            location: Res.data[0].agent.location,
+            files: Res.data[0].agent.files,
+            products: Res.data[0].agent.products,
+            v: Res.data[0].agent.v,
+          )
+        ]);
       } else {
         return DataFailed(
             error: DioError(
@@ -84,5 +79,11 @@ class repositoriesImpl implements domainRepositories {
       print("flag#2");
       return DataFailed(error: e);
     }
+  }
+
+  @override
+  Future<DataState<List<FarmersEntity>>> getFarmerData(String id) {
+    // TODO: implement getFarmerData
+    throw UnimplementedError();
   }
 }

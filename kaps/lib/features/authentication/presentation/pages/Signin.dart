@@ -60,26 +60,28 @@ class _SignInState extends State<SignIn> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Row(children: [
-                      Text(AppLocalizations.of(context)!.loginAccount, style: GoogleFonts.aclonica()),
+                      Text(AppLocalizations.of(context)!.loginAccount,
+                          style: GoogleFonts.aclonica()),
                       const Spacer(),
                       Center(
-                          child: DropdownButton(
-                        icon: Icon(Icons.language),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedValue = newValue!;
-                            BlocProvider.of<LanguageBloc>(context)
-                                .add(LanguageLoading(selectedValue));
-                          });
-                        },
-                        items: <String>['en', 'am']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ))
+                        child: DropdownButton(
+                          icon: Icon(Icons.language),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedValue = newValue!;
+                              BlocProvider.of<LanguageBloc>(context)
+                                  .add(LanguageLoading(selectedValue));
+                            });
+                          },
+                          items: <String>['en', 'am']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      )
                     ]),
                   ),
                   Column(
@@ -213,7 +215,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       SizedBox(height: Screen_height * 0.05),
                       Text(
-                        'Purpose Black Ethiopia',
+                        'Kegeberew Technology Solutions',
                         style: GoogleFonts.aclonica(),
                       ),
                       Text(

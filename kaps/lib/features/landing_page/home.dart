@@ -101,9 +101,7 @@ class _homeState extends State<home> {
       child: FutureBuilder(
           future: checker(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
                 if (val == true) {
                   return Scaffold(
@@ -128,15 +126,13 @@ class _homeState extends State<home> {
                   );
                 } else {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.pushNamed(context, "/SignIn");
+                    Navigator.pushNamed(context, "/display");
                   });
-                  return SizedBox.shrink();
+                  return Scaffold();
                 }
               }
             }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return SizedBox.shrink();
           }),
     );
   }

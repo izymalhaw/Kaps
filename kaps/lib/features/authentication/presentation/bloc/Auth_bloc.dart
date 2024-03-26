@@ -24,9 +24,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._getFarmerDataUseCase) : super(InitialAuthState()) {
     on<SignInEvent>(
       (event, emit) async {
+        emit(LoadingAuthState());
         dynamic res = await _getFarmerDataUseCase.SignIn(
             event.PhoneNumber, event.Password);
-        emit(LoadingAuthState());
         if (res is DataSuccess) {
           return emit(AuthenticatedState(res.data[0]));
         } else if (res is DataFailed) {
@@ -36,7 +36,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+    on<aggrementForm>(
+      (event, emit) {
+        emit(AggrementInitialized());
+      },
+    );
+
     on<SignUpEvent>((event, emit) async {
+      emit(LoadingAuthState());
       dynamic res = await _getFarmerDataUseCase.SignUp(
           event.FullName,
           event.PhoneNumber,
@@ -45,11 +52,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.fileBytes,
           event.fileName,
           event.Password);
-      emit(LoadingAuthState());
       if (res is DataSuccess) {
         print(res.data.toString());
         return emit(AuthenticatedState(res.data));
       } else if (res is DataFailed) {
+        print(res.error.toString());
         return emit(ErrorAuthenticationState(res.error));
       } else {
         return emit(ErrorAuthenticationState(res.error));
@@ -67,7 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           List<Placemark> placemarks = await placemarkFromCoordinates(
               position.latitude, position.longitude);
           final address = "${placemarks[0].locality}";
-          print(address);
+          print(placemarks[0].locality.toString());
           emit(FoundLocationState(address));
         } catch (e) {
           emit(ErrorAuthenticationState(e));
