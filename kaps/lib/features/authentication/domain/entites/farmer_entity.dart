@@ -13,7 +13,6 @@ class FarmersEntity extends Equatable {
   bool? restriction;
   String img;
   String location;
-  String files;
   List<dynamic>? products;
   int? v;
 
@@ -27,7 +26,6 @@ class FarmersEntity extends Equatable {
     this.restriction,
     required this.img,
     required this.location,
-    required this.files,
     required this.products,
     this.v,
   });
@@ -43,7 +41,6 @@ class FarmersEntity extends Equatable {
         restriction,
         img,
         location,
-        files,
         products,
         v,
       ];

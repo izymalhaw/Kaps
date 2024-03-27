@@ -35,66 +35,127 @@ class FarmerModels {
 }
 
 class Agent {
-  String? role;
-  String? id;
-  String name;
-  String phone;
-  String email;
-  String password;
-  bool? restriction;
-  String img;
-  String location;
-  String files;
-  List<dynamic>? products;
-  int? v;
+    Img img;
+    String id;
+    String name;
+    String phone;
+    String email;
+    String password;
+    bool restriction;
+    List<FileElement> files;
+    String location;
+    String role;
+    List<dynamic> products;
+    DateTime createdAt;
+    DateTime updatedAt;
+    int v;
 
-  Agent({
-    this.role,
-    this.id,
-    required this.name,
-    required this.phone,
-    required this.email,
-    required this.password,
-    this.restriction,
-    required this.img,
-    required this.location,
-    required this.files,
-    required this.products,
-    this.v,
-  });
+    Agent({
+        required this.img,
+        required this.id,
+        required this.name,
+        required this.phone,
+        required this.email,
+        required this.password,
+        required this.restriction,
+        required this.files,
+        required this.location,
+        required this.role,
+        required this.products,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.v,
+    });
 
-  factory Agent.fromRawJson(String str) => Agent.fromJson(json.decode(str));
+    factory Agent.fromRawJson(String str) => Agent.fromJson(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+    String toRawJson() => json.encode(toJson());
 
-  factory Agent.fromJson(Map<String, dynamic> json) => Agent(
-        role: json["role"],
+    factory Agent.fromJson(Map<String, dynamic> json) => Agent(
+        img: Img.fromJson(json["img"]),
         id: json["_id"],
         name: json["name"],
         phone: json["phone"],
         email: json["email"],
         password: json["password"],
         restriction: json["restriction"],
-        img: json["img"],
+        files: List<FileElement>.from(json["files"].map((x) => FileElement.fromJson(x))),
         location: json["location"],
-        files: json["files"],
+        role: json["role"],
         products: List<dynamic>.from(json["products"].map((x) => x)),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
-        "role": role,
+    Map<String, dynamic> toJson() => {
+        "img": img.toJson(),
         "_id": id,
         "name": name,
         "phone": phone,
         "email": email,
         "password": password,
         "restriction": restriction,
-        "img": img,
+        "files": List<dynamic>.from(files.map((x) => x.toJson())),
         "location": location,
-        "files": files,
+        "role": role,
+        "products": List<dynamic>.from(products.map((x) => x)),
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
-      };
+    };
+}
+
+class FileElement {
+    String publicId;
+    String url;
+    String id;
+
+    FileElement({
+        required this.publicId,
+        required this.url,
+        required this.id,
+    });
+
+    factory FileElement.fromRawJson(String str) => FileElement.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory FileElement.fromJson(Map<String, dynamic> json) => FileElement(
+        publicId: json["public_id"],
+        url: json["url"],
+        id: json["_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "public_id": publicId,
+        "url": url,
+        "_id": id,
+    };
+}
+
+class Img {
+    String publicId;
+    String url;
+
+    Img({
+        required this.publicId,
+        required this.url,
+    });
+
+    factory Img.fromRawJson(String str) => Img.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory Img.fromJson(Map<String, dynamic> json) => Img(
+        publicId: json["public_id"],
+        url: json["url"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "public_id": publicId,
+        "url": url,
+    };
 }
 
 class FarmerModelsSend extends FarmersEntitySend {
