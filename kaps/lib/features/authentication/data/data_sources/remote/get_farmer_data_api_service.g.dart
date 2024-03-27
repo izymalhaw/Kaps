@@ -86,8 +86,9 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
               data: jsonEncode({'phone': PhoneNumber, 'password': Password}));
       if (response.statusCode == HttpStatus.ok) {
         FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
+        print(farmerEntities.agent.img.url);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('ProfilePicture', farmerEntities.agent.img);
+        await prefs.setString('ProfilePicture', farmerEntities.agent.img.url);
         await prefs.setString('phone', farmerEntities.agent.phone);
         await prefs.setBool('user', true);
         await prefs.setString('name', farmerEntities.agent.name);
