@@ -30,9 +30,8 @@ class repositoriesImpl implements domainRepositories {
             email: Res.data[0].agent.email,
             password: Res.data[0].agent.password,
             restriction: Res.data[0].agent.restriction,
-            img: Res.data[0].agent.img,
+            img: Res.data[0].agent.img.url,
             location: Res.data[0].agent.location,
-            files: Res.data[0].agent.files,
             products: Res.data[0].agent.products,
             v: Res.data[0].agent.v,
           )
