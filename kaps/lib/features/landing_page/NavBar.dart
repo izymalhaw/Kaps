@@ -31,8 +31,7 @@ class NavBar extends StatelessWidget {
               color: Color.fromRGBO(215, 160, 34, 1),
             ),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://kaps-api.purposeblacketh.com/" + ImageCache),
+              backgroundImage: NetworkImage(ImageCache),
             ),
           ),
           ListTile(
