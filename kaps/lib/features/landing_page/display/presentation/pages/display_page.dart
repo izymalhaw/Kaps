@@ -195,11 +195,8 @@ class _displayProductsState extends State<displayProducts> {
                                                                   10)),
                                                   child: FutureBuilder<
                                                       ImageProvider>(
-                                                    future: _loadImage(
-                                                        "https://kaps-api.purposeblacketh.com/" +
-                                                            state
-                                                                .products[index]
-                                                                .file),
+                                                    future: _loadImage(state
+                                                        .products[index].file),
                                                     builder: (BuildContext
                                                             context,
                                                         AsyncSnapshot<
@@ -284,9 +281,7 @@ class _displayProductsState extends State<displayProducts> {
                                             ),
                                             child: FutureBuilder<ImageProvider>(
                                               future: _loadImage(
-                                                  "https://kaps-api.purposeblacketh.com/" +
-                                                      state.products[index]
-                                                          .file),
+                                                  state.products[index].file),
                                               builder: (BuildContext context,
                                                   AsyncSnapshot<ImageProvider>
                                                       snapshot) {

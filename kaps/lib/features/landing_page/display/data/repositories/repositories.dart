@@ -25,12 +25,13 @@ class repositoriesImpl implements domainRepositories {
                       productlocation: product.productlocation,
                       agentphone: product.agentphone.toString(),
                       productdescription: product.productdescription,
-                      file: product.file,
+                      file: product.file.url,
                       createdAt: product.createdAt,
                       updatedAt: product.updatedAt,
                       v: 0,
                       quantity: product.quantity ?? 0,
                       unit: product.unit ?? "",
+                      catagory: product.catagory,
                     ))
                 .toList());
       } else {
@@ -60,7 +61,7 @@ class repositoriesImpl implements domainRepositories {
                 productlocation: Res.data.productlocation,
                 agentphone: Res.data.agentphone,
                 productdescription: Res.data.productdescription,
-                file: Res.data.file,
+                file: Res.data.file.url,
                 createdAt: Res.data.createdAt,
                 updatedAt: Res.data.updatedAt,
                 v: Res.data.v,
