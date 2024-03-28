@@ -60,77 +60,68 @@ class _cartPageState extends State<cartPage> {
         }
       },
       child: Scaffold(
-        bottomSheet: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.15,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5), // Color of the shadow
-                spreadRadius: 5, // Spread radius
-                blurRadius: 7, // Blur radius
-                offset: Offset(0, 3), // Offset of the shadow
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+        bottomSheet: total == 0
+            ? SizedBox.shrink()
+            : Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.15,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Colors.grey.withOpacity(0.5), // Color of the shadow
+                      spreadRadius: 5, // Spread radius
+                      blurRadius: 7, // Blur radius
+                      offset: Offset(0, 3), // Offset of the shadow
+                    ),
+                  ],
+                ),
+                child: Column(
                   children: [
-                    Text("Total Price",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 18, color: Colors.black)),
                     Spacer(),
-                    BlocBuilder<DisplayBloc, DisplayState>(
-                      builder: (context, state) {
-                        if (state is cartDataLoadedState) {
-                          quantities =
-                              state.datas.map((item) => item.quantity).toList();
-                          total = state.datas.asMap().entries.fold(
-                                0,
-                                (sum, entry) =>
-                                    sum +
-                                    (entry.value.productprice *
-                                        quantities[entry.key]),
-                              );
-
-                          return Text("${total.toString()} ETB",
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text("Total Price",
                               style: GoogleFonts.montserrat(
-                                  fontSize: 18, color: Colors.black));
-                        } else {
-                          return Text("0",
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 18, color: Colors.black));
-                        }
-                      },
-                    )
+                                  fontSize: 18, color: Colors.black)),
+                          Spacer(),
+                          BlocBuilder<DisplayBloc, DisplayState>(
+                            builder: (context, state) {
+                              if (state is cartDataLoadedState) {
+                                return Text("${total.toString()} ETB",
+                                    style: GoogleFonts.montserrat(
+                                        fontSize: 18, color: Colors.black));
+                              } else {
+                                return SizedBox.shrink();
+                              }
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                    ElevatedBtns(
+                        PrimaryColor: Color.fromRGBO(215, 160, 34, 1),
+                        SecondaryColor: Colors.white,
+                        TextDisplay: "Check out",
+                        Onpressed: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.remove('products');
+                          setState(() {});
+                          Navigator.pushNamed(context, '/checkout');
+                        }),
+                    Spacer(),
                   ],
                 ),
               ),
-              Spacer(),
-              ElevatedBtns(
-                  PrimaryColor: Color.fromRGBO(215, 160, 34, 1),
-                  SecondaryColor: Colors.white,
-                  TextDisplay: "Check out",
-                  Onpressed: () async {
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.remove('products');
-                    setState(() {});
-                    Navigator.pushNamed(context, '/checkout');
-                  }),
-              Spacer(),
-            ],
-          ),
-        ),
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(235, 235, 235, 1),
           centerTitle: true,
@@ -165,9 +156,7 @@ class _cartPageState extends State<cartPage> {
                                 height: Sheight * 0.2,
                                 width: Swidth * 0.2,
                                 child: FutureBuilder<ImageProvider>(
-                                  future: _loadImage(
-                                      "https://kaps-api.purposeblacketh.com/" +
-                                          state.datas[index].file),
+                                  future: _loadImage(state.datas[index].file),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<ImageProvider> snapshot) {
                                     if (snapshot.connectionState ==
@@ -213,6 +202,14 @@ class _cartPageState extends State<cartPage> {
                                 onChanged: (value) {
                                   setState(() {
                                     quantities[index] = value.toDouble();
+
+                                    total = state.datas.asMap().entries.fold(
+                                          0,
+                                          (sum, entry) =>
+                                              sum +
+                                              (entry.value.productprice *
+                                                  quantities[entry.key]),
+                                        );
                                   });
                                 },
                               ),

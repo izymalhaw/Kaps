@@ -29,7 +29,7 @@ class Datum {
   double? quantity;
   String? unit;
   String? url;
-  String file;
+  FileClass file;
   String? approvalStatus;
   DateTime createdAt;
   DateTime updatedAt;
@@ -70,7 +70,7 @@ class Datum {
         quantity: json["quantity"]?.toDouble(),
         unit: json["unit"],
         url: json["url"],
-        file: json["file"],
+        file: FileClass.fromJson(json["file"]),
         approvalStatus: json["approvalStatus"]!,
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -96,5 +96,30 @@ class Datum {
         "__v": v,
         "adminApproval": adminApproval,
         "catagory": catagory,
+      };
+}
+
+class FileClass {
+  String publicId;
+  String url;
+
+  FileClass({
+    required this.publicId,
+    required this.url,
+  });
+
+  factory FileClass.fromRawJson(String str) =>
+      FileClass.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory FileClass.fromJson(Map<String, dynamic> json) => FileClass(
+        publicId: json["public_id"],
+        url: json["url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "public_id": publicId,
+        "url": url,
       };
 }
