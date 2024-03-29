@@ -19,8 +19,18 @@ abstract class FetchAllProducts {
   Future<HttpResponse<List<Datum>>> FetchProducts() async {
     throw UnimplementedError();
   }
+
   @GET("/wearhouse/products/")
   Future<HttpResponse<Singleproduct>> FetchAProduct(String id) async {
+    throw UnimplementedError();
+  }
+
+  @POST("/cart/add-to-cart")
+  Future<HttpResponse<CartResponse>> addToCart() async{
+    throw UnimplementedError();
+  }
+  @POST("/payment/pay")
+  Future<HttpResponse<PaymentResponse>> PayCart(String OrderId,double price) async{
     throw UnimplementedError();
   }
 }

@@ -3,9 +3,9 @@ import 'dart:typed_data';
 
 import 'package:kaps/core/resources/data_state.dart';
 import 'package:kaps/core/usecase/usecase.dart';
+import 'package:kaps/features/landing_page/display/data/model/models.dart';
 import 'package:kaps/features/landing_page/display/domain/entites/entities.dart';
 import 'package:kaps/features/landing_page/display/domain/repositories/repositories.dart';
-
 
 class GetDataUseCase
     implements UseCase<DataState<List<ProductEntity>>, String> {
@@ -15,8 +15,15 @@ class GetDataUseCase
   Future<DataState<List<ProductEntity>>> call({String? params}) {
     return _domainRepositories.getproductData();
   }
+
   Future<DataState<ProductEntity>> singleProductFetch(String id) {
     return _domainRepositories.getSingleproductData(id);
   }
 
+  Future<DataState<CartResponse>> addToCart() async {
+    return _domainRepositories.addToCart();
+  }
+  Future<DataState<PaymentResponse>> PayCart(String OrderId,double price) async {
+    return _domainRepositories.PayCart(OrderId, price);
+  }
 }
