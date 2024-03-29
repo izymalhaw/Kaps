@@ -10,6 +10,7 @@ import 'package:kaps/features/landing_page/dashboard/presentation/pages/dashboar
 import 'package:kaps/features/landing_page/display/presentation/bloc/display_bloc.dart';
 import 'package:kaps/features/landing_page/display/presentation/pages/cart_page.dart';
 import 'package:kaps/features/landing_page/display/presentation/pages/checkout_page.dart';
+import 'package:kaps/features/landing_page/display/presentation/pages/complete_page.dart';
 import 'package:kaps/features/landing_page/display/presentation/pages/display_page.dart';
 import 'package:kaps/features/landing_page/home.dart';
 import 'package:kaps/features/landing_page/item_add/presentation/bloc/add_items_bloc.dart';
@@ -85,7 +86,14 @@ class _MyAppState extends State<MyApp> {
                     create: (context) => sl<DisplayBloc>(),
                     child: cartPage(),
                   ),
-              '/checkout': (context) => checkoutPage(),
+              '/checkout': (context) => BlocProvider<DisplayBloc>(
+                    create: (context) => sl<DisplayBloc>(),
+                    child: checkoutPage(),
+                  ),
+              '/complete': (context) => BlocProvider<DisplayBloc>(
+                    create: (context) => sl<DisplayBloc>(),
+                    child: CompletePage(),
+                  )
             },
             home: SplashScreen(),
           );

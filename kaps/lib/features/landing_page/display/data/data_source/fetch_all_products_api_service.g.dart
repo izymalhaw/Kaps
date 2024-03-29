@@ -80,6 +80,7 @@ class _FetchAllProducts implements FetchAllProducts {
 
   @override
   Future<HttpResponse<Singleproduct>> FetchAProduct(String id) async {
+    print(id);
     try {
       final response = await _dio.get(
           "https://kaps-api.purposeblacketh.com/wearhouse/products/${id}",
@@ -104,6 +105,93 @@ class _FetchAllProducts implements FetchAllProducts {
       throw DioError(
         error: e.toString(),
         requestOptions: RequestOptions(path: "/product/getitemsbyphone"),
+      );
+    }
+  }
+
+  @override
+  Future<HttpResponse<CartResponse>> addToCart() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final List<String>? products = prefs.getStringList('products');
+      final List<String>? customerInfo = prefs.getStringList('CustomerInfo');
+      final List<String>? productQuantities =
+          prefs.getStringList('productsQuantities');
+      List<Item> items = [];
+      int counter = 0;
+      products?.forEach((element) {
+        items.add(
+            Item(productId: element, quantity: productQuantities![counter]));
+        counter += 1;
+      });
+
+      AddToCart cartInfo = AddToCart(
+          firstName: customerInfo![0],
+          lastName: customerInfo![1],
+          phoneNumber: customerInfo![2],
+          email: customerInfo![3],
+          address:
+              "${customerInfo![4]} ${customerInfo![5]} ${customerInfo![6]} ${customerInfo![7]}}",
+          items: items);
+
+      Map<String, dynamic> datas = cartInfo.toJson();
+
+      print(datas);
+
+      final response = await _dio.post(
+          "https://kaps-api.purposeblacketh.com/cart/add-to-cart",
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization':
+                  'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRjNTU2OWFjYTcwNzhlYmM0NTA5NzIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MDk1MzE5OTB9.VAbggbnkEWv4-XLBdruePcYLyk8T52nBZRl097O3VVE'
+            },
+          ),
+          data: datas);
+
+      var cartRes = CartResponse.fromJson(response.data);
+      prefs.remove('products');
+      prefs.remove('productsQuantities');
+
+      print("cart response: ${cartRes}");
+      return HttpResponse(cartRes, response);
+    } catch (e) {
+      throw DioError(
+        error: e.toString(),
+        requestOptions: RequestOptions(path: "/agent/signin"),
+      );
+    }
+  }
+
+  @override
+  Future<HttpResponse<PaymentResponse>> PayCart(
+      String OrderId, double price) async {
+    try {
+      final response =
+          await _dio.post("https://kaps-api.purposeblacketh.com/payment/pay",
+              options: Options(
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization':
+                      'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRjNTU2OWFjYTcwNzhlYmM0NTA5NzIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MDk1MzE5OTB9.VAbggbnkEWv4-XLBdruePcYLyk8T52nBZRl097O3VVE'
+                },
+              ),
+              data: jsonEncode({
+                "tranx_id": "KAPS_${OrderId}",
+                "return_url":
+                    "https://kaps-api.purposeblacketh.com/payment/success/KAPS_${OrderId}",
+                "amount": price,
+                "subject": "KAPS PRODUCT"
+              }));
+
+      print(response.data);
+      var PayRes = PaymentResponse.fromJson(response.data);
+      return HttpResponse(PayRes, response);
+    } catch (e) {
+      print(e);
+      throw DioError(
+        error: e.toString(),
+        requestOptions: RequestOptions(path: "/agent/signin"),
       );
     }
   }

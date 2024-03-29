@@ -114,8 +114,11 @@ class _cartPageState extends State<cartPage> {
                         Onpressed: () async {
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          await prefs.remove('products');
-                          setState(() {});
+                          prefs.setStringList(
+                              'productsQuantities',
+                              quantities
+                                  .map((item) => item.toString())
+                                  .toList());
                           Navigator.pushNamed(context, '/checkout');
                         }),
                     Spacer(),
@@ -214,9 +217,24 @@ class _cartPageState extends State<cartPage> {
                                 },
                               ),
                               Spacer(),
-                              Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                              GestureDetector(
+                                onTap: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  List<String>? list =
+                                      prefs.getStringList('products');
+
+                                  if (list != null &&
+                                      list.contains(state.datas[index].id)) {
+                                    list.remove(state.datas[index].id);
+                                    await prefs.setStringList('products', list);
+                                  }
+                                  setState(() {});
+                                },
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
                               ),
                               Spacer(),
                             ],

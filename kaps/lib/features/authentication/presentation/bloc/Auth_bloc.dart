@@ -99,8 +99,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         try {
           FilePickerResult? files = await FilePicker.platform.pickFiles(
             withData: true,
-            type: FileType.custom,
-            allowedExtensions: ['pdf', 'docx', 'doc', 'txt'],
+/*             type: FileType.custom,
+            allowedExtensions: ['pdf', 'docx', 'doc', 'txt'], */
           );
           if (files != null) {
             PlatformFile file = files.files.first;
