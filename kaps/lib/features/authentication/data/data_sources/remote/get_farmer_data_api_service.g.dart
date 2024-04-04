@@ -88,6 +88,7 @@ class _GetFarmerDataApiService implements GetFarmerDataApiService {
         FarmerModels farmerEntities = FarmerModels.fromJson(response.data);
         print(farmerEntities.agent.img.url);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('agentid', farmerEntities.agent.id.toString());
         await prefs.setString('ProfilePicture', farmerEntities.agent.img.url);
         await prefs.setString('phone', farmerEntities.agent.phone);
         await prefs.setBool('user', true);

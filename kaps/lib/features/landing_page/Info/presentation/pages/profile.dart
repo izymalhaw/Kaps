@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kaps/features/landing_page/Info/presentation/bloc/info_blocs_bloc.dart';
 import 'package:kaps/features/landing_page/Info/presentation/widgets/TextFields.dart';
 
 class profilePage extends StatefulWidget {
@@ -12,6 +14,7 @@ class _profilePageState extends State<profilePage> {
   bool edit = false;
   String? bank;
   String? Account;
+
   @override
   Widget build(BuildContext context) {
     double wid = MediaQuery.of(context).size.width;
@@ -71,7 +74,14 @@ class _profilePageState extends State<profilePage> {
                               });
                             }
                           },
-                          child: edit ? Icon(Icons.check) : Icon(Icons.edit),
+                          child: edit
+                              ? GestureDetector(
+                                  onTap: () {
+                                    BlocProvider.of<InfoBlocsBloc>(context).add(
+                                        updateAccountEvent(bank!, Account!));
+                                  },
+                                  child: Icon(Icons.check))
+                              : Icon(Icons.edit),
                         )
                       ],
                     ),

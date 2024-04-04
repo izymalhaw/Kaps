@@ -97,14 +97,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<FilePickerEvent>(
       (event, emit) async {
         try {
-          FilePickerResult? files = await FilePicker.platform.pickFiles(
-            withData: true,
-/*             type: FileType.custom,
-            allowedExtensions: ['pdf', 'docx', 'doc', 'txt'], */
-          );
-          if (files != null) {
-            PlatformFile file = files.files.first;
-            emit(FilePickerState(file.bytes!, file.name));
+          FilePickerResult? result = await FilePicker.platform.pickFiles(
+              withData: true,
+              type: FileType.custom,
+              allowedExtensions: ['jpg', 'png', 'jpeg'],
+              allowMultiple: true);
+          if (result != null) {
+            List<PlatformFile> files = result.files;
+            for (PlatformFile file in files) {
+              print(file.name);
+            }
           }
         } on PlatformException catch (e) {
           emit(FileError());

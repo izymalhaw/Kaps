@@ -39,7 +39,8 @@ class _checkoutPageState extends State<checkoutPage> {
       email = customerInfo![3];
       country = customerInfo![4];
       town = customerInfo![5];
-      streetAddress = customerInfo![6];
+      region = customerInfo![6];
+      streetAddress = customerInfo![7];
     });
   }
 
@@ -53,10 +54,6 @@ class _checkoutPageState extends State<checkoutPage> {
           final String OrderId = state.datas.orderId.toString();
           final double price = state.datas.price.totalPrice.toDouble();
           return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Color.fromRGBO(235, 235, 235, 1),
-            ),
             body: SingleChildScrollView(
               child: Container(
                 color: Color.fromRGBO(235, 235, 235, 1),
@@ -68,17 +65,40 @@ class _checkoutPageState extends State<checkoutPage> {
                   child: Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(215, 160, 34, 1),
-                            border: Border.all(
-                                color: Color.fromRGBO(215, 160, 34, 1))),
-                      ),
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(215, 160, 34, 1),
+                              border: Border.all(
+                                  color: Color.fromRGBO(215, 160, 34, 1))),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 8),
+                            child: Center(
+                              child: Text(
+                                "Your Order Has been Recived Click To Continue",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 32),
+                              ),
+                            ),
+                          )),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.5,
                         width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(border: Border.all()),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                            )),
+                        child: Column(
+                          children: [
+                            Text("Order Id: $OrderId"),
+                            Divider(),
+                            Text("Total Price: $price"),
+                            Divider(),
+                            
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -88,6 +108,7 @@ class _checkoutPageState extends State<checkoutPage> {
             bottomSheet: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.1,
+              color: Color.fromRGBO(235, 235, 235, 1),
               child: Column(
                 children: [
                   Spacer(),

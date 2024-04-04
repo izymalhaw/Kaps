@@ -77,4 +77,36 @@ class _infoDataApiService implements infoDataApiService {
       );
     }
   }
+
+  @override
+  Future<UpdateAccount> UpdateAcc(
+      String Id, String accBank, String accNumber) async {
+    try {
+      final response = await _dio.put(
+          "https://kaps-api.purposeblacketh.com/agent/update/${Id}",
+          options: Options(headers: {
+            'Authorization':
+                'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRjNTU2OWFjYTcwNzhlYmM0NTA5NzIiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MDk1MzE5OTB9.VAbggbnkEWv4-XLBdruePcYLyk8T52nBZRl097O3VVE'
+          }),
+          data: jsonEncode({
+            "bankName": accBank.toString(),
+            "accNumber": accNumber.toString()
+          }));
+      if (response.statusCode == HttpStatus.ok) {
+        return UpdateAccount.fromJson(response.data);
+      } else {
+        throw DioError(
+          error: 'An error occurred while fetching farmer data',
+          response: response,
+          requestOptions: response.requestOptions,
+        );
+      }
+    } on DioException catch (e) {
+      print(e.response.toString());
+      throw DioError(
+        error: e.toString(),
+        requestOptions: RequestOptions(path: "/product/getitemsbyphone"),
+      );
+    }
+  }
 }

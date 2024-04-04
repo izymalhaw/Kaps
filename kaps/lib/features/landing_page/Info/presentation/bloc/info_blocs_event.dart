@@ -7,3 +7,9 @@ class FetchHistory extends InfoBlocsEvent {
   final String Phone;
   FetchHistory(this.Phone);
 }
+
+class updateAccountEvent extends InfoBlocsEvent {
+  final String accountName;
+  final String accountNumber;
+  updateAccountEvent(this.accountName, this.accountNumber);
+}

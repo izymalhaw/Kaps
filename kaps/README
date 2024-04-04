@@ -1,0 +1,6 @@
+kotlin version = '1.9.0'
+compile sdk = '33'
+jvm Target = '1.8'
+language Level="JDK_17"
+Flutter version = '3.16.9'
+Dart version = '3.2.6'
